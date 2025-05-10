@@ -1,65 +1,55 @@
-﻿# ChatGPT Backend
+﻿# ChatGPT Frontend
 
-Este es el backend de la aplicación ChatGPT, desarrollado con Node.js, Express y MongoDB. Proporciona una API para interactuar con la API de OpenAI y almacenar el historial de conversaciones.
+Este es el frontend de la aplicación ChatGPT, desarrollado con React, Vite y Tailwind CSS. Proporciona una interfaz de usuario intuitiva para interactuar con la API de ChatGPT.
 
 ## Tecnologías utilizadas
 
-- **Node.js**: Entorno de ejecución para JavaScript del lado del servidor
-- **Express**: Framework para construir APIs REST
-- **MongoDB**: Base de datos NoSQL para almacenar conversaciones
-- **OpenAI API**: Para generar respuestas basadas en inteligencia artificial
-- **Mongoose**: ODM para interactuar con MongoDB
-- **Cors**: Middleware para habilitar CORS
-- **Dotenv**: Para manejar variables de entorno
+- **React**: Biblioteca de JavaScript para construir interfaces de usuario
+- **Vite**: Herramienta de construcción que proporciona un entorno de desarrollo más rápido
+- **Tailwind CSS**: Framework de CSS utilitario para diseño responsive
+- **Axios**: Cliente HTTP para realizar peticiones a la API
+- **React Icons**: Biblioteca de iconos para React
 
 ## Estructura del proyecto
 
 ```
-chatgptback/
-├── controllers/
-│   └── chatController.js    # Controladores para manejar solicitudes de chat
-├── models/
-│   └── Conversation.js      # Modelo de datos para las conversaciones
-├── routes/
-│   └── chatRoutes.js        # Definición de rutas de la API
-├── .env                     # Variables de entorno (no incluido en  el repositorio)
-├── .env.example             # Ejemplo de archivo de variables de entorno
-├── .gitignore               # Archivos a ignorar por git
-├── package.json             # Dependencias y scripts
-├── README.md                # Este archivo
-├── server.js                # Punto de entrada de la aplicación
-└── vercel.json              # Configuración para despliegue en Vercel
+frontend/
+├── public/
+│   └── robot.svg               # Ícono de la aplicación
+├── src/
+│   ├── components/
+│   │   ├── ChatPrompt.jsx      # Componente principal del chat
+│   │   └── Header.jsx          # Componente de cabecera
+│   ├── App.css                 # Estilos específicos de la aplicación
+│   ├── App.jsx                 # Componente principal
+│   ├── index.css               # Estilos globales y configuración de Tailwind
+│   └── main.jsx                # Punto de entrada de React
+├── .gitignore                  # Archivos a ignorar por git
+├── index.html                  # Plantilla HTML
+├── package.json                # Dependencias y scripts
+├── postcss.config.js           # Configuración de PostCSS
+├── README.md                   # Este archivo
+├── tailwind.config.js          # Configuración de Tailwind CSS
+└── vite.config.js              # Configuración de Vite
 ```
 
 ## Requisitos previos
 
 - Node.js (v14 o superior)
-- MongoDB (local o en la nube)
-- API Key de OpenAI
+- npm o yarn
 
 ## Configuración
 
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/tu-usuario/chat-gpt-app.git
+   git clone https://github.com/devmiguelgomez/chatgptfront.git
    cd chat-gpt-app/chatgptback
    ```
 
-2. Instala las dependencias:
+
+3. Instala las dependencias:
    ```bash
    npm install
-   ```
-
-3. Crea un archivo `.env` basándote en `.env.example`:
-   ```bash
-   cp .env.example .env
-   ```
-
-4. Edita el archivo `.env` y agrega tus credenciales:
-   ```
-   PORT=5000
-   MONGODB_URI=tu-uri-de-mongodb
-   OPENAI_API_KEY=tu-api-key-de-openai
    ```
 
 ## Ejecución
@@ -69,57 +59,72 @@ chatgptback/
 npm run dev
 ```
 
-### Modo producción:
+La aplicación estará disponible en `http://localhost:3000`.
+
+### Construir para producción:
 ```bash
-npm start
+npm run build
 ```
 
-El servidor estará disponible en `http://localhost:5000` (o el puerto que hayas configurado).
+### Previsualizar la versión de producción:
+```bash
+npm run preview
+```
 
-## API Endpoints
+## Características
 
-### Generar respuesta de ChatGPT
-- **URL**: `/api/chat`
-- **Método**: `POST`
-- **Body**:
-  ```json
-  {
-    "prompt": "Tu mensaje aquí"
-  }
-  ```
-- **Respuesta**:
-  ```json
-  {
-    "response": "Respuesta generada por ChatGPT"
-  }
-  ```
+- **Interfaz de chat intuitiva**: Diseño similar a aplicaciones de mensajería populares
+- **Indicadores de carga**: Muestra cuándo el sistema está procesando una solicitud
+- **Diseño responsive**: Funciona en dispositivos móviles y de escritorio
+- **Envío con Enter**: Permite enviar mensajes presionando Enter (Shift+Enter para nueva línea)
+- **Formateo de texto automático**: Muestra correctamente textos con múltiples párrafos
+- **Scroll automático**: Se desplaza automáticamente a los nuevos mensajes
+- **Tema visual atractivo**: Diseño con gradientes y efectos visuales modernos
 
-### Obtener historial de conversaciones
-- **URL**: `/api/chat/history`
-- **Método**: `GET`
-- **Respuesta**:
-  ```json
-  [
-    {
-      "_id": "id-de-la-conversacion",
-      "prompt": "Mensaje del usuario",
-      "response": "Respuesta de ChatGPT",
-      "createdAt": "2023-01-01T00:00:00.000Z"
-    }
-  ]
-  ```
+## Personalización
+
+### Colores y tema
+
+Puedes modificar los colores y el tema editando el archivo `tailwind.config.js`. El proyecto utiliza una combinación de colores púrpura e índigo que puedes ajustar según tus preferencias.
+
+### Comportamiento del chat
+
+El componente principal `ChatPrompt.jsx` controla la funcionalidad del chat. Puedes modificar:
+
+- El número máximo de tokens en la respuesta
+- El comportamiento de auto-scroll
+- El formateo de los mensajes
+- Los efectos visuales de carga
+
+## Conexión con el backend
+
+El frontend está configurado para conectarse a un backend desplegado en Vercel:
+
+```javascript
+const res = await axios.post('https://chatgptback.vercel.app/api/chat', { prompt })
+```
+
+Para desarrollo local, modifica la URL en `ChatPrompt.jsx` o utiliza el proxy configurado en `vite.config.js`.
+
+## Estilos
+
+El proyecto utiliza Tailwind CSS para los estilos, con algunas personalizaciones adicionales en:
+
+- `src/index.css`: Configuración global de Tailwind y estilos base
+- `src/App.css`: Animaciones y estilos específicos de la aplicación
 
 ## Despliegue
 
-Este proyecto está configurado para desplegarse en Vercel mediante el archivo `vercel.json`. 
-   ```
+Este frontend puede desplegarse en plataformas como:
 
-## Consideraciones de seguridad
+- **Vercel**: Compatible con Vite, despliegue automático
+- **Netlify**: Despliegue sencillo con soporte para SPA
+- **GitHub Pages**: Requiere configuración adicional
 
-- Nunca expongas tu API Key de OpenAI en el código fuente o en repositorios públicos
-- Utiliza variables de entorno para manejar credenciales sensibles
-- Implementa autenticación para proteger tus endpoints en un entorno de producción
+## Mejores prácticas implementadas
 
-## Modelo de OpenAI utilizado
-
-El backend utiliza el modelo `gpt-4o-mini` de OpenAI, que ofrece un buen balance entre calidad de respuestas y velocidad. Las respuestas están configuradas para ser concisas (máximo 100 palabras) y utilizar emojis para mejorar la experiencia del usuario.
+- **Componentes reutilizables**: Estructura modular para facilitar mantenimiento
+- **Estados y efectos optimizados**: Uso adecuado de hooks de React
+- **UI/UX mejorada**: Animaciones sutiles, feedback visual para acciones
+- **Manejo de errores**: Feedback al usuario cuando ocurren problemas
+- **Renderizado condicional**: Diferentes vistas según el estado de la aplicación
